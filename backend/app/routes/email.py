@@ -42,7 +42,7 @@ async def send_email_smtp(to: str, subject: str, html_content: str):
 
 async def send_reset_email(email: str, reset_token: str):
     """Send password reset email"""
-    api_base_url = os.getenv("API_BASE_URL", "https://it-asset-management-804186663775.europe-west1.run.app")
+    api_base_url = os.getenv("API_BASE_URL", "https://cl-it-asset-v1-804186663775.europe-west1.run.app/login")
     reset_link = f"{api_base_url}/reset-password?token={reset_token}&email={email}"
     
     subject = "Password Reset Request - IT Asset Management"
