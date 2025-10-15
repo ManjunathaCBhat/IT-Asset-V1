@@ -3,7 +3,7 @@
 
 const config = {
   // API Configuration - allow override from environment for local development
-  API_BASE_URL: process.env.REACT_APP_API_BASE_URL || 'https://it-asset-management-804186663775.europe-west1.run.app',
+  API_BASE_URL: process.env.REACT_APP_API_BASE_URL || 'http://localhost:8000',
   
   // Environment Detection
   ENVIRONMENT: process.env.NODE_ENV || 'development',
@@ -44,12 +44,19 @@ const config = {
 
 // Helper function to get full API URL
 export const getApiUrl = (endpoint = '') => {
+  console.log('🔧 Config Debug:', {
+    'process.env.REACT_APP_API_BASE_URL': process.env.REACT_APP_API_BASE_URL,
+    'config.API_BASE_URL': config.API_BASE_URL,
+    'NODE_ENV': process.env.NODE_ENV
+  });
   return `${config.API_BASE_URL}${endpoint}`;
 };
 
 // Helper function to get specific endpoint URL
 export const getEndpointUrl = (endpointKey) => {
-  return getApiUrl(config.ENDPOINTS[endpointKey] || '');
+  const url = getApiUrl(config.ENDPOINTS[endpointKey] || '');
+  console.log(`🎯 Final URL for ${endpointKey}:`, url);
+  return url;
 };
 
 // Debug helper (only logs in development)
