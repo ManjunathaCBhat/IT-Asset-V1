@@ -29,10 +29,15 @@ app = FastAPI(
 # CORS Configuration - CRITICAL for handling OPTIONS requests
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # In production, replace with specific domains
+    allow_origins=[
+        "*",  # Allow all origins for testing
+        "https://cl-it-asset-v1-804186663775.europe-west1.run.app",  # Your frontend URL
+        "http://localhost:3000",  # Local development
+    ],
     allow_credentials=True,
-    allow_methods=["*"],  # Allows GET, POST, PUT, DELETE, OPTIONS, etc.
-    allow_headers=["*"],  # Allows all headers including Authorization
+    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
+    allow_headers=["*"],
+    expose_headers=["*"],
 )
 
 # MongoDB connection
