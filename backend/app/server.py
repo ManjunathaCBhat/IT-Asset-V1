@@ -26,7 +26,7 @@ load_dotenv()
 # ======================== ENV ========================
 MONGO_URI = os.getenv('MONGO_URI')
 JWT_SECRET = os.getenv('JWT_SECRET', 'dev-secret')
-API_BASE_URL = os.getenv('API_BASE_URL', 'http://localhost:8000')
+API_BASE_URL = os.getenv('API_BASE_URL')
 SMTP_HOST = os.getenv('SMTP_HOST')
 SMTP_PORT = int(os.getenv('SMTP_PORT', '0')) if os.getenv('SMTP_PORT') else None
 SMTP_USER = os.getenv('SMTP_USER')
