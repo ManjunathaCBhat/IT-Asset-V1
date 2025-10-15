@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 from fastapi.middleware.cors import CORSMiddleware
@@ -26,13 +26,13 @@ app = FastAPI(
     version="1.0.0"
 )
 
-# CORS Configuration
+# CORS Configuration - CRITICAL for handling OPTIONS requests
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=["*"],  # In production, replace with specific domains
     allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_methods=["*"],  # Allows GET, POST, PUT, DELETE, OPTIONS, etc.
+    allow_headers=["*"],  # Allows all headers including Authorization
 )
 
 # MongoDB connection
@@ -88,7 +88,7 @@ async def shutdown_db_client():
         app.mongodb_client.close()
         print("MongoDB connection closed")
 
-# Include API routes
+# Include API routes - These must come BEFORE the catch-all route
 app.include_router(auth.router, prefix="/api", tags=["Authentication"])
 app.include_router(users.router, prefix="/api/users", tags=["Users"])
 app.include_router(equipment.router, prefix="/api/equipment", tags=["Equipment"])
@@ -152,34 +152,34 @@ if frontend_build_path.exists():
         favicon_path = frontend_build_path / "favicon.ico"
         if favicon_path.exists():
             return FileResponse(str(favicon_path))
-        return {"error": "Favicon not found"}
+        raise HTTPException(status_code=404, detail="Favicon not found")
     
     @app.get("/manifest.json")
     async def manifest():
         manifest_path = frontend_build_path / "manifest.json"
         if manifest_path.exists():
             return FileResponse(str(manifest_path))
-        return {"error": "Manifest not found"}
+        raise HTTPException(status_code=404, detail="Manifest not found")
     
     @app.get("/logo192.png")
     async def logo192():
         logo_path = frontend_build_path / "logo192.png"
         if logo_path.exists():
             return FileResponse(str(logo_path))
-        return {"error": "Logo not found"}
+        raise HTTPException(status_code=404, detail="Logo not found")
     
-    # Catch-all route for React Router (SPA)
+    # Catch-all route for React Router (SPA) - MUST BE LAST
     @app.get("/{full_path:path}")
     async def serve_react_app(full_path: str):
-        # Don't intercept API routes
-        if full_path.startswith("api/") or full_path.startswith("health"):
-            return {"error": "API route not found"}
+        # Don't intercept API routes - let FastAPI handle them normally
+        if full_path.startswith("api/") or full_path.startswith("api") or full_path == "health" or full_path.startswith("internal/"):
+            raise HTTPException(status_code=404, detail="API endpoint not found")
         
-        # Serve index.html for all other routes
+        # Serve index.html for all other routes (React Router handles client-side routing)
         index_file = frontend_build_path / "index.html"
         if index_file.exists():
             return FileResponse(str(index_file))
-        return {"error": "Frontend not found"}
+        raise HTTPException(status_code=404, detail="Frontend not found")
 else:
     print("⚠️  Frontend build not found. Please run: cd frontend && npm run build")
     
@@ -301,7 +301,7 @@ def shutdown_frontend_dev_server():
 
 if __name__ == "__main__":
     import uvicorn
-    port = int(os.getenv("PORT",8000))
+    port = int(os.getenv("PORT", 8000))
     print(f"\n{'='*60}")
     print(f"🚀 Starting IT Asset Management Server")
     print(f"{'='*60}")
@@ -310,4 +310,4 @@ if __name__ == "__main__":
     print(f"🏥 Health: http://localhost:{port}/health")
     print(f"{'='*60}\n")
     
-    uvicorn.run("main:app", host="0.0.0.0", port=port)
+    uvicorn.run("main:app", host="0.0.0.0", port=port, reload=True)
