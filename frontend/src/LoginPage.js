@@ -195,11 +195,23 @@ const LoginPage = ({ onLogin }) => {
         setError('');
 
         try {
-            const response = await axios.post(`${getEndpointUrl('LOGIN')}`, { email, password });
+            const loginUrl = getEndpointUrl('LOGIN');
+            console.log('🔍 Login Debug Info:');
+            console.log('  URL:', loginUrl);
+            console.log('  Email:', email);
+            console.log('  Password length:', password.length);
+            
+            const response = await axios.post(loginUrl, { email, password });
+            console.log('✅ Login response:', response.data);
             message.success('Login Successful!');
             onLogin(response.data);
         } catch (err) {
-            const errorMessage = err.response?.data?.msg || 'Failed to login. Please check credentials.';
+            console.error('❌ Login error:', err);
+            console.error('  Status:', err.response?.status);
+            console.error('  Data:', err.response?.data);
+            console.error('  Message:', err.message);
+            
+            const errorMessage = err.response?.data?.detail || err.response?.data?.msg || 'Failed to login. Please check credentials.';
             setError(errorMessage);
         } finally {
             setIsLoading(false);

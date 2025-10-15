@@ -3,7 +3,6 @@ from ..models import UserCreate, UserUpdate, UserResponse
 from backend.app.routes.auth import verify_jwt_token
 from typing import List, Optional
 from bson import ObjectId
-import bcrypt
 
 router = APIRouter()
 

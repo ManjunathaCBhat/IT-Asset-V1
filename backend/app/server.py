@@ -168,7 +168,7 @@ class ResetPasswordModel(BaseModel):
     newPassword: str
 
 # ====================== ROUTES =======================
-@app.post('/api/users/login')
+@app.post('/api/login')
 async def login(body: LoginModel):
     if not db:
         raise HTTPException(status_code=500, detail='DB not configured')
