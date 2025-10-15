@@ -230,23 +230,25 @@ async def startup_frontend_dev_server():
         frontend_dir = repo_root / "frontend"
         build_dir = frontend_dir / "build"
 
-        # Only start dev server when no production build exists
+        # Check if frontend directory exists
         if not frontend_dir.exists():
             print("⚠️  Frontend directory not found; skipping frontend auto-start")
             return
 
-        if build_dir.exists():
-            print("ℹ️  Frontend build detected; not starting dev server")
-            return
+        # Always start dev server for development (comment out to disable)
+        print("🚀 Starting frontend dev server alongside backend...")
 
         # Ensure logs directory exists
         logs_dir = repo_root / "logs"
         logs_dir.mkdir(parents=True, exist_ok=True)
         log_path = logs_dir / "frontend.log"
 
-        # Launch `npm start` in the frontend folder
+        # Launch `npm start` in the frontend folder  
+        # Set React dev server to use port 3000 (different from backend)
         npm_cmd = ["npm", "start"]
         print(f"🚀 Starting frontend dev server: cd {frontend_dir} && npm start (logs -> {log_path})")
+        print(f"📱 Frontend will be available at: http://localhost:3000")
+        print(f"🔗 Backend API available at: http://localhost:{os.getenv('PORT', 8000)}")
 
         # Open the log file in append mode, line-buffered when possible
         try:
