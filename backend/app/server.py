@@ -26,7 +26,7 @@ load_dotenv()
 # ======================== ENV ========================
 MONGO_URI = os.getenv('MONGO_URI')
 JWT_SECRET = os.getenv('JWT_SECRET', 'dev-secret')
-API_BASE_URL = os.getenv('API_BASE_URL')
+API_BASE_URL = os.getenv('API_BASE_URL', 'https://cl-it-asset-v1-804186663775.europe-west1.run.app')
 SMTP_HOST = os.getenv('SMTP_HOST')
 SMTP_PORT = int(os.getenv('SMTP_PORT', '0')) if os.getenv('SMTP_PORT') else None
 SMTP_USER = os.getenv('SMTP_USER')

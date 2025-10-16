@@ -2,8 +2,12 @@
 // This file manages all environment-specific configurations
 
 const config = {
-  // API Configuration - allow override from environment for local development
-  API_BASE_URL: process.env.REACT_APP_API_BASE_URL,
+  // API Configuration - smart fallback based on environment
+  API_BASE_URL: process.env.REACT_APP_API_BASE_URL || 
+    (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
+      ? 'http://localhost:8000'  // Local development
+      : 'https://cl-it-asset-v1-804186663775.europe-west1.run.app'  // Production - use the correct URL
+    ),
   
   // Environment Detection
   ENVIRONMENT: process.env.NODE_ENV || 'development',
