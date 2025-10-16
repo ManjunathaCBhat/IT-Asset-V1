@@ -5,6 +5,8 @@ import { message } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons';
 import config, { getEndpointUrl } from './config/config';
+import logo from './C_Lab_Logo.png';
+const logoSrc = logo;
 
 const LoginPage = ({ onLogin }) => {
     const [email, setEmail] = useState('');
@@ -562,12 +564,19 @@ const sendPasswordResetEmail = async () => {
                 <canvas ref={canvasRef} style={styles.canvas} />
                 <div style={styles.logoContainer}>
                     <img
-                        src={`${process.env.PUBLIC_URL}/C_lab logo.png`}
+                        src={logoSrc}
                         alt="Cirrus Labs Logo"
                         style={styles.logo}
+                        onError={(e) => {
+                            console.error('❌ LoginPage Logo failed to load:', e.target.src);
+                            console.error('❌ Using imported logo:', logoSrc);
+                        }}
+                        onLoad={() => {
+                            console.log('✅ LoginPage Logo loaded successfully:', logoSrc);
+                        }}
                     />
                     <div style={styles.subtitle}>
-                        IT Asset Management Dashboard
+                       
                     </div>
                 </div>
             </div>

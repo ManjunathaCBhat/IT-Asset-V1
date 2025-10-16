@@ -70,4 +70,12 @@ export const debugLog = (message, data = null) => {
   }
 };
 
+// API_ENDPOINTS for UserManagement.js compatibility
+export const API_ENDPOINTS = {
+  USERS_LIST: getApiUrl('/api/users'),
+  USERS_CREATE: getApiUrl('/api/users/create'),
+  USERS_UPDATE: (userId) => getApiUrl(`/api/users/${userId}`),
+  USERS_DELETE: (userId) => getApiUrl(`/api/users/${userId}`),
+};
+
 export default config;

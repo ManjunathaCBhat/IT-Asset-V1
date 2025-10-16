@@ -1,26 +1,27 @@
 // src/WelcomePage.js
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-
+import logo from './C_Lab_Logo.png';
+ 
 const WelcomePage = () => {
     // --- Responsive State & Logic ---
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
     const [windowHeight, setWindowHeight] = useState(window.innerHeight);
     const [buttonHovered, setButtonHovered] = useState(false); // State for button hover effect
-
+ 
     useEffect(() => {
         // Set body styles to prevent scrolling
         document.body.style.margin = '0';
         document.body.style.padding = '0';
         document.body.style.overflow = 'hidden';
         document.documentElement.style.overflow = 'hidden';
-
+ 
         const handleResize = () => {
             setWindowWidth(window.innerWidth);
             setWindowHeight(window.innerHeight);
         };
         window.addEventListener('resize', handleResize);
-        
+       
         return () => {
             window.removeEventListener('resize', handleResize);
             // Reset body styles
@@ -28,17 +29,21 @@ const WelcomePage = () => {
             document.documentElement.style.overflow = '';
         };
     }, []);
-
+ 
     const isMobile = windowWidth <= 768;
     const isTablet = windowWidth <= 992;
     const isLargeDesktop = windowWidth <= 1200;
-
-    // --- Image Paths (ensure these are correct relative to your public folder) ---
-    const logoSrc = `${process.env.PUBLIC_URL}/C_Lab Logo.png`;
-
-
+ 
+    // --- Image Paths (using imported logo) ---
+    const logoSrc = logo;
+    
+    // Debug logging
+    console.log('🖼️ WelcomePage Logo Debug:');
+    console.log('  Imported Logo Path:', logoSrc);
+ 
+ 
     // --- Inline Style Objects ---
-
+ 
     const globalBodyStyle = {
         position: 'fixed',
         top: 0,
@@ -57,7 +62,7 @@ const WelcomePage = () => {
         display: 'flex',
         flexDirection: 'column',
     };
-
+ 
     const containerStyle = {
         maxWidth: '1440px',
         marginLeft: 'auto',
@@ -67,18 +72,18 @@ const WelcomePage = () => {
         ...(isTablet && { paddingLeft: '10px', paddingRight: '10px' }),
         ...(isMobile && { paddingLeft: '5px', paddingRight: '5px' }),
     };
-
+ 
     const linkBaseStyle = {
         textDecoration: 'none',
         color: 'inherit',
     };
-
+ 
     const ulBaseStyle = {
         margin: 0,
         padding: 0,
         listStyle: 'none',
     };
-
+ 
     // Header Styles
     const siteHeaderStyle = {
         backgroundColor: '#ffffff',
@@ -89,13 +94,13 @@ const WelcomePage = () => {
         flexShrink: 0,
         minHeight: 'auto',
     };
-
+ 
     const headerContainerStyle = {
         ...containerStyle,
         display: 'flex',
         flexDirection: 'column',
     };
-
+ 
     const headerTopStyle = {
         display: 'flex',
         justifyContent: 'flex-end',
@@ -105,25 +110,25 @@ const WelcomePage = () => {
         marginTop: isMobile ? '5px' : '10px',
         ...(isMobile && { justifyContent: 'center', marginBottom: '6px', flexWrap: 'wrap' }),
     };
-
+ 
     const locationNavUlStyle = {
         ...ulBaseStyle,
         display: 'flex',
         alignItems: 'center',
         ...(isMobile && { flexWrap: 'wrap', justifyContent: 'center' }),
     };
-
+ 
     const locationNavLiStyle = {
         position: 'relative',
         padding: isMobile ? '0 6px' : '0 8px',
     };
-
+ 
     const separatorStyle = {
         borderRight: '1px solid #ccc',
         height: isMobile ? '12px' : '14px',
         margin: isMobile ? '0 6px' : '0 8px',
     };
-
+ 
     const locationNavAStyle = {
         fontFamily: "'Crimson Text', serif",
         fontSize: isMobile ? '12px' : '13px',
@@ -133,13 +138,13 @@ const WelcomePage = () => {
         whiteSpace: 'nowrap',
         ...linkBaseStyle,
     };
-
+ 
     const callIconStyle = {
         marginRight: isMobile ? '3px' : '5px',
         color: '#0f3374',
         fontSize: isMobile ? '11px' : '13px',
     };
-
+ 
     const headerMainStyle = {
         display: 'flex',
         justifyContent: 'flex-start',
@@ -148,14 +153,14 @@ const WelcomePage = () => {
         gap: '20px',
         ...(isMobile && { flexWrap: 'wrap', justifyContent: 'center', gap: '10px' }),
     };
-
+ 
     const logoBaseStyle = {
         width: isMobile ? '100px' : '150px',
         height: 'auto',
         display: 'block',
         filter: 'drop-shadow(2px 2px 3px rgba(0,0,0,0.2))',
     };
-
+ 
     // Hero Section Styles
     const heroSectionStyle = {
         position: 'relative',
@@ -168,15 +173,15 @@ const WelcomePage = () => {
         textAlign: 'center',
         minHeight: 0, // Allow flex shrinking
     };
-
-
+ 
+ 
     const heroContentStyle = {
         maxWidth: isMobile ? '90%' : '800px',
         padding: isMobile ? '10px' : '20px',
         boxSizing: 'border-box',
         zIndex: 1,
     };
-
+ 
     const heroTitleStyle = {
         fontFamily: "'Crimson Text', serif",
         fontSize: isMobile ? '28px' : '36px',
@@ -186,7 +191,7 @@ const WelcomePage = () => {
         marginTop: 0,
         marginBottom: isMobile ? '10px' : '12px',
     };
-
+ 
     const heroTextStyle = {
         fontFamily: "'Poly', sans-serif",
         fontSize: isMobile ? '14px' : '18px',
@@ -195,7 +200,7 @@ const WelcomePage = () => {
         letterSpacing: '1.3px',
         marginBottom: isMobile ? '10px' : '15px',
     };
-
+ 
     const heroButtonStyle = {
         display: 'inline-block',
         background: buttonHovered ? '#b01f1f' : '#dc2626', // Change color on hover
@@ -213,7 +218,7 @@ const WelcomePage = () => {
         cursor: 'pointer',
         ...linkBaseStyle,
     };
-
+ 
     // Footer Styles
     const siteFooterStyle = {
         backgroundColor: '#36548b',
@@ -222,7 +227,7 @@ const WelcomePage = () => {
         flexShrink: 0,
         minHeight: 'auto',
     };
-
+ 
     const footerContainerStyle = {
         ...containerStyle,
         display: 'flex',
@@ -232,14 +237,14 @@ const WelcomePage = () => {
         flexDirection: 'column',
         textAlign: 'center',
     };
-
+ 
     const footerLogoImgStyle = {
         width: isMobile ? '80px' : '100px',
         height: 'auto',
         marginBottom: '3px',
         filter: 'drop-shadow(2px 2px 3px rgba(0,0,0,0.2))',
     };
-
+ 
     const copyrightTextStyle = {
         fontFamily: "'Poly', sans-serif",
         fontSize: isMobile ? '8px' : '10px',
@@ -247,7 +252,7 @@ const WelcomePage = () => {
         color: '#ffffff',
         margin: 0,
     };
-
+ 
     return (
         <div style={globalBodyStyle}>
             {/* Header */}
@@ -265,28 +270,28 @@ const WelcomePage = () => {
                                 </li>
                                 {/* Separator */}
                                 <div style={separatorStyle}></div>
-
+ 
                                 {/* INDIA */}
                                 <li style={locationNavLiStyle}>
                                     <a href="https://www.cirruslabs.io/india" target="_blank" rel="noopener noreferrer" style={locationNavAStyle}>INDIA</a>
                                 </li>
                                 {/* Separator */}
                                 <div style={separatorStyle}></div>
-
+ 
                                 {/* CANADA */}
                                 <li style={locationNavLiStyle}>
                                     <a href="https://www.cirruslabs.io/north" target="_blank" rel="noopener noreferrer" style={locationNavAStyle}>CANADA</a>
                                 </li>
                                 {/* Separator */}
                                 <div style={separatorStyle}></div>
-
+ 
                                 {/* MIDDLE EAST */}
                                 <li style={locationNavLiStyle}>
                                     <a href="https://www.cirruslabs.io/middleeast" target="_blank" rel="noopener noreferrer" style={locationNavAStyle}>MIDDLE EAST</a>
                                 </li>
                                 {/* Separator */}
                                 <div style={separatorStyle}></div>
-
+ 
                                 {/* USA (no separator after last item) */}
                                 <li style={locationNavLiStyle}>
                                     <a href="https://www.cirruslabs.io/usa" target="_blank" rel="noopener noreferrer" style={locationNavAStyle}>USA</a>
@@ -301,7 +306,7 @@ const WelcomePage = () => {
                     </div>
                 </div>
             </header>
-
+ 
             {/* Hero Section */}
             <section id="hero" style={heroSectionStyle}>
                 <div style={heroContentStyle}>
@@ -322,7 +327,7 @@ const WelcomePage = () => {
                     </Link>
                 </div>
             </section>
-
+ 
             {/* Footer */}
             <footer id="footer" style={siteFooterStyle}>
                 <div style={footerContainerStyle}>
@@ -339,5 +344,6 @@ const WelcomePage = () => {
         </div>
     );
 };
-
+ 
 export default WelcomePage;
+ 
