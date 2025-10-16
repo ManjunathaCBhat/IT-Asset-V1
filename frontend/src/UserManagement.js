@@ -19,7 +19,9 @@ import {
 } from '@ant-design/icons';
 import axios from 'axios';
 import './styles.css';
-import config, { getEndpointUrl } from './config/config';
+
+// FIXED: Import the corrected config
+import { API_ENDPOINTS } from './config/config';
 
 const { Title } = Typography;
 const { Option } = Select;
@@ -32,7 +34,7 @@ const roles = [
 
 const getAuthHeader = () => {
   const token = localStorage.getItem('token');
-  return token ? { 'x-auth-token': token } : {};
+  return token ? { 'Authorization': `Bearer ${token}` } : {};
 };
 
 const UserManagement = () => {
@@ -45,12 +47,16 @@ const UserManagement = () => {
   // Fetch users from backend
   const fetchUsers = useCallback(async () => {
     try {
-      const res = await axios.get(`${getEndpointUrl('USERS')}`, {
+      console.log('🔍 Fetching users from:', API_ENDPOINTS.USERS_LIST);
+      const res = await axios.get(API_ENDPOINTS.USERS_LIST, {
         headers: getAuthHeader()
       });
+      console.log('✅ Users fetched:', res.data);
       setUsers(res.data);
     } catch (err) {
+      console.error('❌ Fetch users error:', err);
       message.error(
+        err?.response?.data?.detail ||
         err?.response?.data?.msg ||
         err?.response?.data?.message ||
         err?.response?.data?.error ||
@@ -69,11 +75,14 @@ const UserManagement = () => {
     setIsModalVisible(true);
   };
 
-  // Add user handler
+  // Add user handler - FIXED URL
   const handleAddUser = async (values) => {
     try {
+      console.log('🔍 Creating user at:', API_ENDPOINTS.USERS_CREATE);
+      console.log('📤 User data:', values);
+      
       await axios.post(
-        `${getEndpointUrl('USERS')}/create`,
+        API_ENDPOINTS.USERS_CREATE,  // FIXED: Use direct endpoint, not concatenation
         {
           name: values.name,
           email: values.email,
@@ -82,11 +91,17 @@ const UserManagement = () => {
         },
         { headers: getAuthHeader() }
       );
+      
       message.success('User created successfully!');
       setIsModalVisible(false);
       fetchUsers();
     } catch (err) {
+      console.error('❌ Create user error:', err);
+      console.error('  Status:', err.response?.status);
+      console.error('  Data:', err.response?.data);
+      
       message.error(
+        err?.response?.data?.detail ||
         err?.response?.data?.msg ||
         err?.response?.data?.message ||
         err?.response?.data?.error ||
@@ -108,7 +123,7 @@ const UserManagement = () => {
     }, 0);
   };
 
-  // Edit user handler
+  // Edit user handler - FIXED URL
   const handleEditUser = async () => {
     try {
       const values = await formEdit.validateFields();
@@ -120,17 +135,23 @@ const UserManagement = () => {
       if (values.password && values.password.trim().length > 0) {
         payload.password = values.password;
       }
+      
+      console.log('🔍 Updating user at:', API_ENDPOINTS.USERS_UPDATE(editModal.user._id));
+      
       await axios.put(
-        `${getEndpointUrl('USERS')}/${editModal.user._id}`,
+        API_ENDPOINTS.USERS_UPDATE(editModal.user._id),  // FIXED: Use function endpoint
         payload,
         { headers: getAuthHeader() }
       );
+      
       message.success('User updated successfully!');
       setEditModal({ visible: false, user: null });
       fetchUsers();
       formEdit.resetFields();
     } catch (err) {
+      console.error('❌ Update user error:', err);
       message.error(
+        err?.response?.data?.detail ||
         err?.response?.data?.msg ||
         err?.response?.data?.message ||
         err?.response?.data?.error ||
@@ -139,16 +160,21 @@ const UserManagement = () => {
     }
   };
 
-  // Delete user handler
+  // Delete user handler - FIXED URL
   const handleDeleteUser = async (userId) => {
     try {
-      await axios.delete(`${getEndpointUrl('USERS')}/${userId}`, {
+      console.log('🔍 Deleting user at:', API_ENDPOINTS.USERS_DELETE(userId));
+      
+      await axios.delete(API_ENDPOINTS.USERS_DELETE(userId), {
         headers: getAuthHeader()
       });
+      
       message.success('User deleted successfully');
       fetchUsers();
     } catch (err) {
+      console.error('❌ Delete user error:', err);
       message.error(
+        err?.response?.data?.detail ||
         err?.response?.data?.msg ||
         err?.response?.data?.message ||
         err?.response?.data?.error ||
@@ -182,7 +208,7 @@ const UserManagement = () => {
       title: 'Role',
       dataIndex: 'role',
       key: 'role',
-      width:120
+      width: 120
     },
     {
       title: 'Edit',
@@ -329,7 +355,6 @@ const UserManagement = () => {
         </Form>
       </Modal>
 
-      {/* Edit User Modal */}
       {/* Edit User Modal */}
       <Modal
         title="Edit User"
