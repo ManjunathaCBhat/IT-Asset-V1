@@ -38,7 +38,7 @@ const { Option } = Select;
 
 
 const categoryOptions = [
-  'Laptop', 'Headset', 'Keyboard', 'Mouse', 'Monitor', 'Other'
+  'Laptop', 'Monitor', 'Mouse', 'Headset', 'Keyboard', 'Others'
 ];
 const locationOptions = [
   'Bangalore', 'Mangalore', 'USA', 'Canada', 'Dubai', 'Hyderabad'
@@ -645,6 +645,8 @@ const InStockView = ({ user }) => {
                       <Option value="Deloitte">Deloitte</Option>
                       <Option value="Lionguard">Lionguard</Option>
                       <Option value="Cognizant">Cognizant</Option>
+                      <Option value="Elevance">Elevance</Option>
+                      <Option value="UST">UST</Option>
                 </Select>
               </Form.Item>
             </Col>

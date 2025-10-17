@@ -65,9 +65,10 @@ const getAuthHeader = () => {
   return token ? { 'x-auth-token': token } : {};
 };
 
-const locationOptions = ['Bangalore', 'Mangalore', 'Hyderabad', 'USA', 'Canada'];
-const categoryOptions = ['Laptop', 'Headset', 'Keyboard', 'Mouse', 'Monitor', 'Other'];
+const locationOptions = ['Bangalore', 'Mangalore', 'USA', 'Canada', 'Dubai', 'Hyderabad'];
+const categoryOptions = ['Laptop', 'Monitor', 'Mouse', 'Headset', 'Keyboard', 'Others'];
 const statusOptions = ['In Use', 'In Stock', 'Damaged', 'Removed', 'E-Waste'];
+const clientOptions = ['Deloitte', 'Lionguard', 'Cognizant', 'Elevance', 'UST'];
 
 const assetTableRows = asset => [
   ['Model', asset.model || 'N/A'],
@@ -78,6 +79,7 @@ const assetTableRows = asset => [
   ['Purchase Price', asset.purchasePrice || 'N/A'],
   ['Purchase Date', asset.purchaseDate ? moment(asset.purchaseDate).format('YYYY-MM-DD') : 'N/A'],
   ['Warranty Expiry', asset.warrantyInfo ? moment(asset.warrantyInfo).format('DD MMM YYYY') : 'N/A'],
+  ['Client', asset.client || 'N/A'],
 ];
 
 const assigneeRows = asset => [
@@ -346,8 +348,9 @@ const InUse = ({ user }) => {
         purchaseDate: updatedAsset.purchaseDate,
         status: updatedAsset.status,  // Still included, but see below (disabled in modal)
         purchasePrice: updatedAsset.purchasePrice,
+        client: updatedAsset.client,
       };
-      for (const k of ['assigneeName','position','employeeEmail','phoneNumber','department','comment','damageDescription'])
+      for (const k of ['assigneeName','position','employeeEmail','phoneNumber','department','comment','damageDescription','client'])
         if (payloadToSend[k] === "") payloadToSend[k] = null;
 
       await axios.put(
@@ -541,14 +544,21 @@ const InUse = ({ user }) => {
                </Form.Item>
              </Col>
              <Col span={12}>
-               <Form.Item label="Purchase Price" name="purchasePrice">
-                 <Input />
+               <Form.Item label="Client" name="client">
+                 <Select allowClear>{clientOptions.map(opt => <Option key={opt} value={opt}>{opt}</Option>)}</Select>
                </Form.Item>
              </Col>
            </Row>
            <Row gutter={12}>
              <Col span={12}><Form.Item label="Purchase Date" name="purchaseDate"><DatePicker style={{ width: '100%' }} /></Form.Item></Col>
              <Col span={12}><Form.Item label="Warranty Info" name="warrantyInfo"><DatePicker style={{ width: '100%' }} /></Form.Item></Col>
+           </Row>
+           <Row gutter={12}>
+             <Col span={12}>
+               <Form.Item label="Purchase Price" name="purchasePrice">
+                 <Input />
+               </Form.Item>
+             </Col>
            </Row>
            <Typography.Title level={5} style={{ fontSize: '14px', marginTop: 20, marginBottom: 8 }}>Assignee Details</Typography.Title>
            <Row gutter={12}>
