@@ -21,6 +21,8 @@ class ClientEnum(str, Enum):
     DELOITTE = "Deloitte"
     LIONGUARD = "Lionguard"
     COGNIZANT = "Cognizant"
+    ELEVANCE = "Elevance"
+    UST = "UST"
 
 # ==================== USER MODELS ====================
 

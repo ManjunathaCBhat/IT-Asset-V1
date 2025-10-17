@@ -46,7 +46,7 @@ const AddEquipment = () => {
     setLoading(true);
     setErrors({});
     try {
-      const categoryToUse = values.category === 'Other' ? values.customCategory : values.category;
+      const categoryToUse = values.category === 'Others' ? values.customCategory : values.category;
       const assetId = await generateAssetId(categoryToUse);
 
       const finalValues = {
@@ -152,11 +152,11 @@ const AddEquipment = () => {
                   >
                     <Select placeholder="Select a category" >
                       <Option value="Laptop">Laptop</Option>
+                      <Option value="Monitor">Monitor</Option>
+                      <Option value="Mouse">Mouse</Option>
                       <Option value="Headset">Headset</Option>
                       <Option value="Keyboard">Keyboard</Option>
-                      <Option value="Mouse">Mouse</Option>
-                      <Option value="Monitor">Monitor</Option>
-                      <Option value="Other">Other</Option>
+                      <Option value="Others">Others</Option>
                     </Select>
                   </Form.Item>
                 </Col>
@@ -172,7 +172,7 @@ const AddEquipment = () => {
                     </Select>
                   </Form.Item>
                 </Col>
-                {category === 'Other' && (
+                {category === 'Others' && (
                   <Col span={24}>
                     <Form.Item
                       name="customCategory"
@@ -215,6 +215,8 @@ const AddEquipment = () => {
                       <Option value="Deloitte">Deloitte</Option>
                       <Option value="Lionguard">Lionguard</Option>
                       <Option value="Cognizant">Cognizant</Option>
+                      <Option value="Elevance">Elevance</Option>
+                      <Option value="UST">UST</Option>
                     </Select>
                   </Form.Item>
                 </Col>
@@ -277,9 +279,10 @@ const AddEquipment = () => {
                     <Select placeholder="Select Location">
                       <Option value="Bangalore">Bangalore</Option>
                       <Option value="Mangalore">Mangalore</Option>
-                      <Option value="Hyderabad">Hyderabad</Option>
                       <Option value="USA">USA</Option>
                       <Option value="Canada">Canada</Option>
+                      <Option value="Dubai">Dubai</Option>
+                      <Option value="Hyderabad">Hyderabad</Option>
                     </Select>
                   </Form.Item>
                 </Col>

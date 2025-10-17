@@ -41,7 +41,7 @@ const categoryOptions = [
   'Laptop', 'Headset', 'Keyboard', 'Mouse', 'Monitor', 'Other'
 ];
 const locationOptions = [
-  'Bangalore', 'Mangalore', 'Hyderabad', 'USA', 'Canada'
+  'Bangalore', 'Mangalore', 'USA', 'Canada', 'Dubai', 'Hyderabad'
 ];
 
 

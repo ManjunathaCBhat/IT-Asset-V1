@@ -128,7 +128,7 @@ const summarizeByLocation = (assets) => {
     });
 
     // Explicitly add desired locations to ensure they always show up, even with 0 items
-    const desiredLocations = ['Bangalore', 'Mangalore', 'Hyderabad', 'USA', 'Canada'];
+    const desiredLocations = ['Bangalore', 'Mangalore', 'USA', 'Canada', 'Dubai', 'Hyderabad'];
     desiredLocations.forEach(loc => {
         if (!locationSummary[loc]) {
             locationSummary[loc] = {
@@ -175,6 +175,8 @@ const getLocationIcon = (location) => {
         case 'USA':
         case 'Canada':
             return <DatabaseOutlined style={{ fontSize: '32px', color: '#1890FF' }} />;
+        case 'Dubai':
+            return <DatabaseOutlined style={{ fontSize: '32px', color: '#FF7A00' }} />;
         default:
             return <DatabaseOutlined style={{ fontSize: '32px', color: '#888' }} />;
     }
